@@ -1,10 +1,11 @@
 <template>
-  <table class="case-table">
-    <caption><strong>{{ caseModel.group }} {{ caseModel.case }}</strong> {{ caseModel.name }}</caption>
-    <template v-for="(group, index) in groups" >
+  <table class="case-table" border="1">
+    <caption><strong>{{ caseModel.group }} {{ caseModel.case }}</strong> {{ caseModel.name }} - {{ caseModel.desc }}</caption>
+    <template v-for="(projection, index) in projections" >
       <tbody :key="index">
-        <case-group-head :projection="group.projection"></case-group-head>
-        <case-group :positions="group.positions" :projection="group.projection"></case-group>
+        <case-group-head :projection="projection.projection" :case-model="caseModel"></case-group-head>
+        <case-group :positions="projection.positions" :projection="projection.projection"
+                    :case-model="caseModel"></case-group>
       </tbody>
     </template>
   </table>
@@ -17,30 +18,27 @@
   export default {
     components: {CaseGroupHead, CaseGroup},
     name: 'case-table',
-    couputed: {
-      projections () {
-        return this.$store.state.projections.list;
-      },
-      caseModel () {
-        return this.$store.state.case.model;
-      },
-      positions () {
-        return this.$store.state.positions.list;
-      },
-      groups () {
-        return this.positions.reduce((groups, position) => {
-          const code = position.projectionCode;
-          if (groups[code]) {
-            groups[code].positions.concat(position);
-          } else {
-            const projection = this.projections.find(projection => projection.code === code);
-            groups[code] = { projection, positions: [position]}
-          }
-          return groups;
-        },{})
+    props: {
+      caseModel: {
+        type: Object,
+        required: true
       }
     },
-
+    computed: {
+      positions () {
+        return this.$store.state.positions.list.filter(position => position.caseCode === this.caseModel.code);
+      },
+      projections () {
+        return this.$store.state.projections.list.map(projection => ({
+          projection,
+          positions: this.positions.filter(position => position.projectionCode === projection.code)
+        }));
+      }
+    },
+    created () {
+      this.$store.dispatch('fetchCases', 'F2L');
+      this.$store.dispatch('fetchPositions', 'F2L-1');
+    }
   }
 </script>
 

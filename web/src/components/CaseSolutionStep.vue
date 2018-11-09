@@ -1,10 +1,8 @@
 <template>
-  <div>
-    <span>
-      <strong v-if="selected"> {{ stepCleared }} </strong>
-      <span v-else> {{ step }} </span>
-    </span>
-  </div>
+  <span>
+    <strong v-if="selected"> {{ stepCleared }} </strong>
+    <span v-else> {{ step }} </span>
+  </span>
 </template>
 
 <script>
@@ -22,7 +20,7 @@
     },
     data (){
       return {
-        clearing: new RegExp("[\*]{1}", 'i'),
+        clearing: /[*]{1}/i,
       }
     },
     computed:{

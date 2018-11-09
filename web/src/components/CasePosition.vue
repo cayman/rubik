@@ -1,12 +1,16 @@
 <template>
   <div>
-    <small>set: {{ setup }}</small><br/>
-    <!--<div><b>{{ algorithm }}</b></div>		-->
+    <small>set: {{ setup }}</small>
+    <a class="action" @click="editPosition" title="Редактировать">
+      <i class="fa fa fa-pencil" aria-hidden="true"/>
+    </a>
+    <br/>
+    <div><b>{{ algorithm }}</b></div>
     <img class="image" :src="image" @click="clearAlgoritm()">
 
     <template v-for="(solution, index) in solutions" >
-      <hr v-if="index !== 0"/>
-      <case-solution @steps="setAlgorithm" :solution="solution"></case-solution>
+      <hr v-if="index !== 0" :key="index + 'hr'"/>
+      <case-solution @steps="setAlgorithm" :key="index" :solution="solution"></case-solution>
     </template>
   </div>
 </template>
@@ -16,7 +20,7 @@
 
   export default {
     components: {CaseSolution},
-    name: 'case-group-position',
+    name: 'case-position',
     props: {
       position: {
         type: Object,
@@ -25,6 +29,10 @@
       projection: {
         type: Object,
         required: true
+      },
+      rotation: {
+        type: String,
+        required: false
       }
     },
     data(){
@@ -41,7 +49,7 @@
     },
     computed:{
       solutions () {
-        return this.position.solutions;
+        return this.position.solutions || [];
       },
       setup(){
         return  this.position.setup;
@@ -58,6 +66,10 @@
       clearAlgoritm (){
         this.algorithm = '';
       },
+      editPosition (){
+        const solutions = this.solutions.length > 0 ? this.position.solutions : [{alg: null, note: null}];
+        this.$store.commit('setPosition', {...this.position, solutions});
+      }
     }
   }
 </script>

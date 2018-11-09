@@ -1,10 +1,10 @@
 <template>
-  <div v-for="group in cases">
-    <div v-for="(hap,index) in group.cases">
-      <case-table v-bind:hap="hap" v-bind:group="group.name" v-bind:key="index"></case-table>
+  <main>
+    <div v-for="caseModel in cases" :key="caseModel.code">
+      <case-table :case-model="caseModel"></case-table>
       <div class="more"></div>
     </div>
-  </div>
+  </main>
 </template>
 
 <script>
@@ -12,11 +12,19 @@
 
   export default {
     components: {CaseTable},
-    name: 'app'
+    name: 'app',
+    created () {
+      this.$store.dispatch('fetchCases','F2L');
+    },
+    computed: {
+      cases () {
+        return this.$store.state.cases.list;
+      }
+    }
   }
 </script>
 
-<style scoped>
+<style lang="scss">
   @page {
     size: A4;
     margin-right: 0.5cm;
@@ -34,6 +42,22 @@
     }
     table{
       width: 100%;
+    }
+  }
+
+  .action {
+    display: inline-block;
+    background-color: transparent;
+    color: #7162ac;
+    cursor: pointer;
+    margin-left: 5px;
+    margin-right: 5px;
+    padding: 7px;
+    border-radius: 2px;
+    line-height: normal;
+    &:hover {
+       background-color: cornflowerblue;
+       color: white;
     }
   }
 </style>

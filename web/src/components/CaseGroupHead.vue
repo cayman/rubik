@@ -3,15 +3,12 @@
     <td>
       <strong>{{ prefix }} &nbsp; ({{ projection.name }})</strong>
     </td>
-    <td>
-      <span> {{ prefix }}</span> <strong>U'</strong>
-    </td>
-    <td>
-      <span> {{ prefix }}</span> <strong>U2</strong>
-    </td>
-    <td>
-      <span> {{ prefix }}</span> <strong>U</strong>
-    </td>
+    <template v-for="(rotation, index) in projection.rotations">
+      <td :key="index">
+        <span> {{ prefix }} </span>
+        <strong> {{ projection.turn }} {{rotation}}</strong>
+      </td>
+    </template>
   </tr>
 </template>
 
@@ -19,6 +16,10 @@
   export default {
     name: 'case-group-head',
     props: {
+      caseModel: {
+        type: Object,
+        required: true
+      },
       projection: {
         type: Object,
         required: true
@@ -26,7 +27,7 @@
     },
     computed: {
       prefix () {
-        return this.projection.code + ' ' + this.projection.turn;
+        return this.projection.code;
       }
     }
   }

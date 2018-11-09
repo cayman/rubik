@@ -1,27 +1,46 @@
 <template>
   <tr>
-    <td v-for="(position, index) in positions" :key="index">
-      <case-group-position :position="position" :projection="projection"></case-group-position>
-    </td>
+    <case-group-cell :projection="projection" :rotation="null" :position="basePosition" :case-model="caseModel"/>
+    <template v-for="{rotation, position} in rotatedPositions">
+      <case-group-cell :key="rotation" :rotation="rotation"
+                       :projection="projection" :position="position" :case-model="caseModel"/>
+    </template>
   </tr>
 </template>
 
 <script>
-  import CaseGroupPosition from './CaseGroupPosition';
+  import CaseGroupCell from './CaseGroupCell';
 
   export default {
-    components: {CaseGroupPosition},
+    components: { CaseGroupCell },
     name: 'case-group',
     props: {
-      positions: {
-        type: Array,
+      caseModel: {
+        type: Object,
         required: true
       },
       projection: {
         type: Object,
         required: true
+      },
+      positions: {
+        type: Array,
+        required: true
+      }
+    },
+    computed: {
+      basePosition() {
+        return this.positions.find(position => !position.rotation);
+      },
+      rotatedPositions() {
+        return !this.projection.rotations ? [] : this.projection.rotations
+          .map(rotation => ({
+            rotation,
+            position: this.positions.find(position => position.rotation === rotation)
+          }));
       }
     }
+
   }
 </script>
 
