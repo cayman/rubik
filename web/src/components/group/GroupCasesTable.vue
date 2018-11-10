@@ -1,6 +1,6 @@
 <template>
   <table class="group-cases-table" border="1">
-    <caption><span>{{ part.name }}</span>
+    <caption><span>{{ part.name }} - {{ part.desc }}</span>
       <a class="action" @click="addCase" title="Добавить">
         <i class="fa fa fa-plus" aria-hidden="true"/>
       </a>
