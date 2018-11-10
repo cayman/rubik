@@ -1,0 +1,65 @@
+<template>
+  <div>
+    <small>set: {{ setup }}</small>
+    <a class="action" @click="editPosition" title="Редактировать">
+      <i class="fa fa fa-pencil" aria-hidden="true"/>
+    </a>
+    <case-image :setup="setup" :algorithm="algorithm" :view="projection.view" @clear="clearAlgoritm"/>
+    <case-solutions @change="setAlgorithm" :solutions="solutions"/>
+  </div>
+</template>
+
+<script>
+  import CaseSolutions from '../common/Solutions';
+  import CaseImage from '../common/CaseImage';
+
+  export default {
+    components: {CaseSolutions, CaseImage},
+    name: 'case-position',
+    props: {
+      position: {
+        type: Object,
+        required: true
+      },
+      projection: {
+        type: Object,
+        required: true
+      },
+      rotation: {
+        type: String,
+        required: false
+      }
+    },
+    data(){
+      return {
+        algorithm: ''
+      }
+    },
+    computed:{
+      setup(){
+        return  this.position.setup;
+      },
+      solutions () {
+        return this.position.solutions || [];
+      }
+    },
+    methods:{
+      setAlgorithm (algorithm){
+        this.algorithm = algorithm;
+      },
+      clearAlgoritm (){
+        this.algorithm = '';
+      },
+      editPosition (){
+        this.$store.dispatch('editPosition', this.position);
+      }
+    }
+  }
+</script>
+
+<style scoped>
+  .image {
+    width: 130px;
+    height: 130px;
+  }
+</style>

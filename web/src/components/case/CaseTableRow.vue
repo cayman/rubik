@@ -1,19 +1,19 @@
 <template>
   <tr>
-    <case-group-cell :projection="projection" :rotation="null" :position="basePosition" :case-model="caseModel"/>
+    <case-table-cell :projection="projection" :rotation="null" :position="basePosition" :case-model="caseModel"/>
     <template v-for="{rotation, position} in rotatedPositions">
-      <case-group-cell :key="rotation" :rotation="rotation"
+      <case-table-cell :key="rotation" :rotation="rotation"
                        :projection="projection" :position="position" :case-model="caseModel"/>
     </template>
   </tr>
 </template>
 
 <script>
-  import CaseGroupCell from './CaseGroupCell';
+  import CaseTableCell from './CaseTableCell';
 
   export default {
-    components: { CaseGroupCell },
-    name: 'case-group',
+    components: { CaseTableCell },
+    name: 'case-table-row',
     props: {
       caseModel: {
         type: Object,

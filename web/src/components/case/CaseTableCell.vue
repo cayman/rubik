@@ -1,7 +1,7 @@
 <template>
-  <td>
+  <td :style="{width}">
     <template v-if="position">
-      <case-position-edit v-if="editPosition.id === position.id" :projection="projection"/>
+      <case-position-edit v-if="editing && model.id === position.id" :projection="projection"/>
       <case-position v-else :position="position" :projection="projection" :rotation="rotation"/>
     </template>
     <template v-else-if="creating">
@@ -21,7 +21,7 @@
 
   export default {
     components: { CasePosition, CasePositionEdit },
-    name: 'case-group',
+    name: 'case-table-cell',
     props: {
       position: {
         type: Object,
@@ -41,26 +41,31 @@
       }
     },
     computed: {
-      editPosition () {
+      columns () {
+        return this.projection.rotations.length + 1;
+      },
+      width () {
+        return (100 / this.columns).toFixed(0) + '%';
+      },
+      model () {
         return this.$store.state.position.model;
       },
+      editing () {
+        return this.$store.state.position.editing;
+      },
       creating () {
-        return this.editPosition.caseCode === this.caseModel.code &&
-        this.editPosition.projectionCode === this.projection.code &&
-        this.editPosition.rotation === this.rotation;
+        return this.editing &&
+          this.model.caseCode === this.caseModel.code &&
+          this.model.projectionCode === this.projection.code &&
+          this.model.rotation === this.rotation;
       }
     },
     methods: {
       addPosition () {
-        const code = this.caseModel.code + (this.projection.turn ? '_' + this.projection.turn : '') +
-        (this.rotation ? '_' + this.rotation : '');
-        this.$store.commit('setPosition', {
-          code,
-          caseCode: this.caseModel.code,
-          projectionCode: this.projection.code,
-          rotation: this.rotation,
-          setup: this.caseModel.setup,
-          solutions: [{alg: null, note: null}]
+        this.$store.dispatch('newPosition', {
+          caseModel: this.caseModel,
+          projection: this.projection,
+          rotation: this.rotation
         })
       }
     }

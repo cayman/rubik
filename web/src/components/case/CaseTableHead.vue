@@ -1,10 +1,10 @@
 <template>
   <tr class="pTitle">
-    <td>
+    <td :style="{width}">
       <strong>{{ prefix }} &nbsp; ({{ projection.name }})</strong>
     </td>
     <template v-for="(rotation, index) in projection.rotations">
-      <td :key="index">
+      <td :key="index" :style="{width}">
         <span> {{ prefix }} </span>
         <strong> {{ projection.turn }} {{rotation}}</strong>
       </td>
@@ -14,7 +14,7 @@
 
 <script>
   export default {
-    name: 'case-group-head',
+    name: 'case-table-head',
     props: {
       caseModel: {
         type: Object,
@@ -26,6 +26,12 @@
       }
     },
     computed: {
+      columns () {
+        return this.projection.rotations.length + 1;
+      },
+      width () {
+        return (100 / this.columns).toFixed(0) + '%';
+      },
       prefix () {
         return this.projection.code;
       }

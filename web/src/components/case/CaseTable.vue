@@ -1,22 +1,27 @@
 <template>
   <table class="case-table" border="1">
-    <caption><strong>{{ caseModel.group }} {{ caseModel.case }}</strong> {{ caseModel.name }} - {{ caseModel.desc }}</caption>
+    <caption>
+      <router-link :to="{name: 'group', params: {id: caseModel.groupCode}}">
+        <strong>{{ caseModel.groupCode }}</strong>
+      </router-link>
+      <strong> {{ caseModel.number }}</strong>
+      {{ caseModel.name }} - {{ caseModel.desc }}</caption>
     <template v-for="(projection, index) in projections" >
       <tbody :key="index">
-        <case-group-head :projection="projection.projection" :case-model="caseModel"></case-group-head>
-        <case-group :positions="projection.positions" :projection="projection.projection"
-                    :case-model="caseModel"></case-group>
+        <case-table-head :projection="projection.projection" :case-model="caseModel"></case-table-head>
+        <case-table-row :positions="projection.positions" :projection="projection.projection"
+                    :case-model="caseModel"></case-table-row>
       </tbody>
     </template>
   </table>
 </template>
 
 <script>
-  import CaseGroupHead from './CaseGroupHead';
-  import CaseGroup from './CaseGroup';
+  import CaseTableHead from './CaseTableHead';
+  import CaseTableRow from './CaseTableRow';
 
   export default {
-    components: {CaseGroupHead, CaseGroup},
+    components: {CaseTableHead, CaseTableRow},
     name: 'case-table',
     props: {
       caseModel: {
@@ -26,7 +31,8 @@
     },
     computed: {
       positions () {
-        return this.$store.state.positions.list.filter(position => position.caseCode === this.caseModel.code);
+        return this.$store.state.positions.list
+          .filter(position => position.caseCode === this.caseModel.code);
       },
       projections () {
         return this.$store.state.projections.list.map(projection => ({
@@ -34,10 +40,6 @@
           positions: this.positions.filter(position => position.projectionCode === projection.code)
         }));
       }
-    },
-    created () {
-      this.$store.dispatch('fetchCases', 'F2L');
-      this.$store.dispatch('fetchPositions', 'F2L-1');
     }
   }
 </script>

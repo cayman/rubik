@@ -1,26 +1,12 @@
 <template>
-  <main>
-    <div v-for="caseModel in cases" :key="caseModel.code">
-      <case-table :case-model="caseModel"></case-table>
-      <div class="more"></div>
-    </div>
-  </main>
+  <div id="app">
+    <router-view></router-view>
+  </div>
 </template>
 
 <script>
-  import CaseTable from './CaseTable';
-
   export default {
-    components: {CaseTable},
-    name: 'app',
-    created () {
-      this.$store.dispatch('fetchCases','F2L');
-    },
-    computed: {
-      cases () {
-        return this.$store.state.cases.list;
-      }
-    }
+    name: 'app'
   }
 </script>
 
@@ -45,14 +31,19 @@
     }
   }
 
+  #app {
+    width: 100%;
+    height: 100%;
+  }
+
   .action {
+    float: right;
     display: inline-block;
     background-color: transparent;
     color: #7162ac;
     cursor: pointer;
-    margin-left: 5px;
     margin-right: 5px;
-    padding: 7px;
+    padding: 3px;
     border-radius: 2px;
     line-height: normal;
     &:hover {

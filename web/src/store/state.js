@@ -1,27 +1,54 @@
 export default {
-
-
+  // все группы
+  message: {},
+  // все группы
+  groups: {
+    loading: false,
+    list: []
+  },
+  // Группа
+  group: {
+    loading: false,
+    model: {
+      code: null,
+      name: null,
+      desc: null
+    }
+  },
   // все случаи группы
   cases: {
+    loading: false,
     list: []
   },
   // Случай
   case: {
+    loading: false,
+    editing: false,
     model: {
-
+      code: null,
+      number: null,
+      groupCode: null,
+      projectionCode: null,
+      name: null,
+      desc: null,
+      setup: null
     }
   },
   // все позиции для случая
   positions: {
+    loading: false,
     list: []
   },
   // Позиция
   position: {
+    loading: false,
+    editing: false,
     model: {
+      groupCode: null,
       caseCode: null,
-      code: null,
       projectionCode: null,
       rotation: null,
+      code: null,
       setup: null,
       solutions: []
     }
