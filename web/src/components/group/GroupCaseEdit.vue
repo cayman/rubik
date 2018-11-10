@@ -37,10 +37,24 @@
     </div>
     <div class="form__field">
       <label class="form__label">
+        Группа:
+      </label>
+      <span class="form__input">
+        <select v-model="fieldPartCode" style="width: 150px">
+          <option v-for="part in parts" :key="part.code" :value="part.code" :label="part.name">
+          </option>
+        </select>
+      </span>
+    </div>
+    <div class="form__field">
+      <label class="form__label">
         Setup:
       </label>
       <span class="form__input">
-        <input type="text" v-model="fieldSetup" style="width: 150px"/>
+        <input type="text" v-model="fieldSetup" style="width: 135px"/>
+        <a class="action" @click="revertSetup" title="Инверсия">
+          <i class="fa fa-retweet" aria-hidden="true"/>
+        </a>
       </span>
     </div>
 
@@ -50,11 +64,16 @@
 </template>
 
 <script>
+  import {revert} from "../../util";
+
   export default {
     name: 'group-case-edit',
     computed:{
       projections () {
         return this.$store.state.projections.list;
+      },
+      parts () {
+        return this.$store.state.group.model.parts;
       },
       caseModel () {
         return this.$store.state.case.model;
@@ -98,12 +117,23 @@
         set (projectionCode) {
           this.updateCase({projectionCode});
         }
+      },
+      fieldPartCode: {
+        get () {
+          return this.caseModel.partCode;
+        },
+        set (partCode) {
+          this.updateCase({partCode});
+        }
       }
       // projection () {
       //   return this.projections.find(p => p.code === this.fieldProjectionCode);
       // }
     },
     methods: {
+      revertSetup () {
+        this.fieldSetup = revert(this.fieldSetup);
+      },
       updateCase (model) {
         this.$store.commit('updateCase', model);
       },

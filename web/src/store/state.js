@@ -12,7 +12,8 @@ export default {
     model: {
       code: null,
       name: null,
-      desc: null
+      desc: null,
+      parts: []
     }
   },
   // все случаи группы
@@ -29,6 +30,7 @@ export default {
       number: null,
       groupCode: null,
       projectionCode: null,
+      partCode: null,
       name: null,
       desc: null,
       setup: null

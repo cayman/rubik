@@ -24,7 +24,7 @@
     },
     data(){
       return {
-        url: 'http://cube.crider.co.uk/visualcube.php?&fmt=svg&pzl=3&size=100&stage=f2l&cc=black&bg=white&dist=6'
+        url: 'http://cube.crider.co.uk/visualcube.php?&fmt=svg&pzl=3&size=120&stage=f2l&cc=black&bg=white&dist=6'
       }
     },
     computed:{
@@ -42,7 +42,7 @@
 
 <style scoped>
   .image {
-    width: 130px;
-    height: 130px;
+    width: 125px;
+    height: 125px;
   }
 </style>

@@ -1,14 +1,14 @@
 <template>
   <tr>
     <template v-for="(block, index) in blocks">
-      <td :key="'head'+index" :style="{width: '100px'}">
+      <td :key="'head'+index" :style="{width: width + '%', minWidth: '90px'}">
         <group-case-head :case-model="block.caseModel"/>
       </td>
-      <td :key="'image'+index" :style="{width: '130px'}">
+      <td :key="'image'+index" :style="{width: '125px'}">
         <case-image v-if="block.projection" :setup="block.caseModel.setup" :algorithm="algorithms[index]"
                     :view="block.projection.view" @clear="clearAlgoritm(index)"/>
       </td>
-      <td :key="'solutions'+index" >
+      <td :key="'solutions'+index" :style="{width: width * 2 + '%'}">
         <!--{{ block.caseModel }}-->
         <group-case-edit v-if="editing && model.id === block.caseModel.id"/>
         <case-solutions v-else-if="block.position" :solutions="block.position.solutions" @change="setAlgorithm(index)" />

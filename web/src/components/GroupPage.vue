@@ -1,10 +1,9 @@
 <template>
   <main>
-    <group-cases-table :title="group.name" :cases="cases">
-      <a class="action" @click="addCase" title="Добавить">
-        <i class="fa fa fa-plus" aria-hidden="true"/>
-      </a>
-    </group-cases-table>
+    <template v-for="part in parts">
+      <group-cases-table :key="part.code" :group="group" :part="part">
+      </group-cases-table>
+    </template>
     <div class="more"></div>
   </main>
 </template>
@@ -18,12 +17,8 @@
       group() {
         return this.$store.state.group.model;
       },
-      cases() {
-        return this.$store.state.cases.list;
-      },
-      lastCase() {
-        return this.cases.reduce((last, caseModel) =>
-          caseModel.number > last.number ? caseModel : last, {number: 0});
+      parts () {
+        return this.group.parts
       }
     },
     created () {
@@ -40,9 +35,6 @@
           this.$store.dispatch('fetchCases', group.code);
           this.$store.dispatch('fetchPositions', {groupCode: group.code});
         });
-      },
-      addCase () {
-        this.$store.dispatch('newCase', {group: this.group, lastCase: this.lastCase});
       }
     }
   }

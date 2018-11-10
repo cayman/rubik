@@ -65,7 +65,7 @@ export default {
     commit('loading', 'cases');
     return getters.cases.where('groupCode', '==', groupCode).get()
       .then(list => getSnapList(list)
-        .sort((a, b) => a.code > b.code ? 1 : -1)
+        .sort((a, b) => a.number > b.number ? 1 : -1)
       )
       .then(list => {
         commit('setCases', list);
@@ -95,7 +95,7 @@ export default {
       });
   },
 
-  newCase: ({commit}, {lastCase, group}) => {
+  newCase: ({commit}, {lastCase, group, part}) => {
     console.log('newCase:', group.code);
     const model = {
       id: null,
@@ -105,6 +105,7 @@ export default {
       name: lastCase.name || null,
       desc: lastCase.desc || null,
       projectionCode: lastCase.projectionCode || null,
+      partCode: part.code,
       setup: null
     };
     commit('setCase', model);
