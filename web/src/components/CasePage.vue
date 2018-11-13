@@ -25,6 +25,7 @@
     methods: {
       fetchData ({id}) {
         console.log('fetchData', id);
+        this.$store.dispatch('fetchPatterns');
         this.$store.dispatch('fetchCase', id ).then(model => {
           this.$store.dispatch('fetchPositions', {caseCode: model.code})
         });

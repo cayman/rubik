@@ -1,6 +1,11 @@
 export default {
   // все группы
   message: {},
+  // шаблоны алгоритмов
+  patterns: {
+    loading: false,
+    list: []
+  },
   // все группы
   groups: {
     loading: false,

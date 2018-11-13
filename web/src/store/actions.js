@@ -24,6 +24,25 @@ export function getSnapData (snap) {
 export default {
 
   // Случаи
+  fetchPatterns: ({commit, getters}) => {
+    console.log('fetchPatterns:');
+    commit('loading', 'patterns');
+    return getters.patterns.get()
+      .then(list => getSnapList(list)
+        .filter(p => p.alg && p.alg.length > 0)
+        .sort((a, b) => a.alg.length > b.alg.length ? -1 : 1)
+      )
+      .then(list => {
+        commit('setPatterns', list);
+        commit('loaded', 'patterns');
+        return list;
+      })
+      .catch((error) => {
+        commit('setMessage', parseError('Ошибка загрузки шаблонов:', error));
+        commit('loaded', 'patterns');
+      });
+  },
+  // Случаи
   fetchGroups: ({commit, getters}) => {
     console.log('fetchGroups:');
     commit('loading', 'groups');

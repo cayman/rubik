@@ -31,6 +31,7 @@
     methods: {
       fetchData ({id}) {
         console.log('fetchData', id);
+        this.$store.dispatch('fetchPatterns');
         this.$store.dispatch('fetchGroup', id).then(group => {
           this.$store.dispatch('fetchCases', group.code);
           this.$store.dispatch('fetchPositions', {groupCode: group.code});

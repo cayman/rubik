@@ -12,6 +12,9 @@ export default {
   setMessage: (state, message) => {
     state.message = message;
   },
+  setPatterns: (state, list) => {
+    Vue.set(state.patterns, 'list', list);
+  },
   setGroups: (state, list) => {
     Vue.set(state.groups, 'list', list);
   },
