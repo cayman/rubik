@@ -39,13 +39,15 @@
   #app {
     width: 100%;
     height: 100%;
+    font-family: "Times New Roman", Times, serif;
+    font-size: 12pt;
   }
 
   .action {
     float: right;
     display: inline-block;
     background-color: transparent;
-    color: #8995b9;
+    color: gainsboro;
     cursor: pointer;
     margin: 0 4px 0 0;
     padding: 2px;

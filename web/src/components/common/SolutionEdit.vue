@@ -18,6 +18,14 @@
     </div>
     <div class="case-solution-edit__field">
       <label class="case-solution-edit__label">
+        Выделен:
+      </label>
+      <span class="case-solution-edit__input">
+        <input type="checkbox" v-model="fieldSelected"/>
+      </span>
+    </div>
+    <div class="case-solution-edit__field">
+      <label class="case-solution-edit__label">
         Ключ:
       </label>
       <span class="case-solution-edit__input">
@@ -55,6 +63,14 @@
         },
         set (note) {
           this.updateSolution({note});
+        }
+      },
+      fieldSelected: {
+        get () {
+          return this.solution.selected;
+        },
+        set (selected) {
+          this.updateSolution({selected});
         }
       },
       fieldKey: {

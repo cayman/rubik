@@ -4,6 +4,12 @@ import App from './components/App.vue'
 import store from './store';
 import router from './router';
 
+Vue.filter('wrap', function (value) {
+  if (!value) return ''
+  return value.replace('(','')
+})
+
+
 new Vue({
   render: h => h(App),
   store,

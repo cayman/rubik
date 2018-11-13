@@ -1,8 +1,7 @@
 <template>
-  <div>
+  <div class="solutions">
     <template v-for="(solution, index) in solutions" >
-      <hr v-if="index !== 0" :key="index + 'hr'"/>
-      <solution @change="change" :key="index" :solution="solution"/>
+      <solution class="solutions__item" @change="change" :key="index" :solution="solution"/>
     </template>
   </div>
 </template>
@@ -27,9 +26,13 @@
   }
 </script>
 
-<style scoped>
-  .image {
-    width: 130px;
-    height: 130px;
+<style lang="scss" scoped>
+  .solutions {
+      &__item {
+        &:not(:first-child) {
+          border-top: 1px solid lightsteelblue;
+        }
+        padding: 2px 0;
+      }
   }
 </style>

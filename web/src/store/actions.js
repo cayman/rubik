@@ -179,7 +179,7 @@ export default {
       rotation,
       code,
       setup: caseModel.setup || null,
-      solutions: [{alg: null, note: null, key: null}]
+      solutions: [{alg: null, note: null, selected: false, key: null}]
     };
     commit('setPosition', model);
     commit('setPositionEditing', true);

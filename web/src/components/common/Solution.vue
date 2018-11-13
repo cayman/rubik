@@ -5,7 +5,7 @@
         <solution-step :step="step" :selected="selected" />
       </span>
     </template>
-    <br v-if="solution.note && steps.length>10"/>
+    <wbr v-if="solution.note && steps.length>10"/>
     <span class="case-solution__note" v-if="solution.note" >{{ solution.note }}</span>
   </div>
 </template>
@@ -30,7 +30,7 @@
         return this.alg.split(' ');
       },
       selected (){
-        return !!this.solution.key;
+        return !!this.solution.selected;
       },
     },
     methods: {
@@ -50,6 +50,10 @@
     }
     &__note {
       font-style: italic;
+      color: slategray;
+      padding-left: 5px;
+      white-space: nowrap;
+      font-size: 11px;
     }
   }
 </style>

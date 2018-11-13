@@ -93,4 +93,16 @@ export default {
       solutions.splice(index, 1);
     }
   },
+  moveForwardSolution: (state, {index}) => {
+    const solutions = state.position.model.solutions;
+    if (solutions[index] && index < solutions.length - 1) {
+      solutions.splice(index + 1, 0, solutions.splice(index, 1)[0]);
+    }
+  },
+  moveBackSolution: (state, {index}) => {
+    const solutions = state.position.model.solutions;
+    if (solutions[index] && index > 0) {
+      solutions.splice(index - 1, 0, solutions.splice(index, 1)[0]);
+    }
+  },
 };
