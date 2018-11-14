@@ -1,12 +1,20 @@
 <template>
   <div class="case-solution">
+    <span class="case-solution__key" v-if="key">{{ key }}:</span>
     <template v-for="(step, index) in steps">
-      <span class="case-solution__step" :key="index" @click="setStep(index)">
+      <span class="case-solution__step" :key="index +'step'" @click="setStep(index)">
         <solution-step :step="step" :selected="selected" />
       </span>
     </template>
-    <wbr v-if="solution.note && steps.length>10"/>
-    <span class="case-solution__note" v-if="solution.note" >{{ solution.note }}</span>
+    <br v-if="solution.note"/>
+    <template v-for="(note, index) in notes" >
+      <router-link v-if="note.includes(groupCode)" class="case-solution__link"
+                   :to="{name:'case', params: { id: note }}" :key="index+'link'">
+        {{ note }}</router-link>
+      <span v-else class="case-solution__note" :key="index+'note'">
+       {{ note }}
+      </span>
+    </template>
   </div>
 </template>
 
@@ -23,11 +31,21 @@
       }
     },
     computed: {
+      groupCode() {
+        return this.$store.state.group.model.code || this.$store.state.case.model.groupCode;
+      },
       alg (){
         return this.solution.alg || '';
       },
+      key (){
+        return this.solution.key;
+      },
       steps (){
         return this.alg.split(' ');
+      },
+      notes (){
+        return !this.solution.note ?  []
+          : this.solution.note.split(' ').map(n => n.trim()).filter(n => n.length > 0);
       },
       selected (){
         return !!this.solution.selected;
@@ -45,15 +63,27 @@
 
 <style lang="scss" scoped>
   .case-solution {
+    &__key {
+      color: slategray;
+      font-weight: 600;
+    }
     &__step {
 
     }
     &__note {
       font-style: italic;
       color: slategray;
-      padding-left: 5px;
+      padding-left: 2px;
       white-space: nowrap;
       font-size: 11px;
+    }
+    &__link {
+      font-style: italic;
+      cursor: pointer;
+      color: blue;
+      padding-left: 0;
+      white-space: nowrap;
+      font-size: 10px;
     }
   }
 </style>

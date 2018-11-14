@@ -29,6 +29,10 @@
       group: {
         type: Object,
         required: true
+      },
+      groupLastCase: {
+        type: Object,
+        required: true
       }
     },
     computed: {
@@ -49,7 +53,7 @@
         return this.$store.state.cases.list
           .filter(model => model.partCode === this.part.code);
       },
-      lastCase() {
+      partLastCase() {
         return this.cases.reduce((last, caseModel) =>
           caseModel.number > last.number ? caseModel : last, {number: 0, partCode: this.part.code});
       },
@@ -64,7 +68,11 @@
     },
     methods: {
       addCase () {
-        this.$store.dispatch('newCase', {group: this.group, part: this.part, lastCase: this.lastCase});
+        this.$store.dispatch('newCase', {
+          group: this.group,
+          part: this.part,
+          lastCase: this.partLastCase.number > 0 ? this.partLastCase : this.groupLastCase
+        });
       }
     }
   }

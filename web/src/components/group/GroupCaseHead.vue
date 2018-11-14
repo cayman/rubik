@@ -17,7 +17,7 @@
     </div>
     <div class="group-case-head__setup">
       set:
-      <template v-for="(step, index) in caseModel.setup.split(' ')">
+      <template v-for="(step, index) in setupSteps">
         <wbr :key="index +'wbr'" v-if="step.startsWith('(')" />
         <span :key="index">{{ step }}&nbsp;</span>
       </template>
@@ -32,6 +32,11 @@
       caseModel: {
         type: Object,
         required: true
+      }
+    },
+    computed: {
+      setupSteps () {
+        return this.caseModel.setup ? this.caseModel.setup.split(' ') : [];
       }
     },
     methods:{

@@ -5,13 +5,13 @@
         <group-case-head :case-model="block.caseModel"/>
       </td>
       <td :key="'image'+index" :style="{width: '125px'}">
-        <case-image v-if="block.projection" :setup="block.caseModel.setup" :algorithm="algorithms[index]"
+        <case-image v-if="block.projection" :setup="block.caseModel.setup" :algorithm="algorithm"
                     :view="block.projection.view" @clear="clearAlgoritm(index)"/>
       </td>
       <td :key="'solutions'+index" :style="{width: width * 2 + '%'}">
         <!--{{ block.caseModel }}-->
         <group-case-edit v-if="editing && model.id === block.caseModel.id"/>
-        <case-solutions v-else-if="block.position" :solutions="block.position.solutions" @change="setAlgorithm(index)" />
+        <case-solutions v-else-if="block.position" :solutions="block.position.solutions" @change="setAlgorithm" />
       </td>
     </template>
   </tr>
@@ -38,7 +38,7 @@
     },
     data(){
       return {
-        algorithms: []
+        algorithm: null
       }
     },
     computed: {
@@ -53,11 +53,11 @@
       }
     },
     methods:{
-      setAlgorithm (index){
-        return algorithm => this.algorithms[index] = algorithm;
+      setAlgorithm (algorithm){
+        return this.algorithm = algorithm;
       },
       clearAlgoritm (index){
-        this.algorithms[index] = '';
+        this.algorithm = '';
       },
       editCase (){
         this.$store.dispatch('editCase', this.caseModel);

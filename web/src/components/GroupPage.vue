@@ -1,7 +1,7 @@
 <template>
   <main>
     <template v-for="part in parts">
-      <group-cases-table :key="part.code" :group="group" :part="part">
+      <group-cases-table :key="part.code" :group="group" :part="part" :group-last-case="lastCase">
       </group-cases-table>
     </template>
     <div class="more"></div>
@@ -19,7 +19,14 @@
       },
       parts () {
         return this.group.parts
-      }
+      },
+      cases () {
+        return this.$store.state.cases.list;
+      },
+      lastCase() {
+        return this.cases.reduce((last, caseModel) =>
+          caseModel.number > last.number ? caseModel : last, {number: 0, partCode: 1});
+      },
     },
     created () {
       this.fetchData(this.$route.params);
