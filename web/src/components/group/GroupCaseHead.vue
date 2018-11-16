@@ -22,6 +22,9 @@
         <span :key="index">{{ step }}&nbsp;</span>
       </template>
     </div>
+    <div class="group-case-head__count">
+      pos: {{ positions.length }}
+    </div>
   </div>
 </template>
 
@@ -37,7 +40,10 @@
     computed: {
       setupSteps () {
         return this.caseModel.setup ? this.caseModel.setup.split(' ') : [];
-      }
+      },
+      positions() {
+        return this.$store.state.positions.list.filter(p => p.caseCode === this.caseModel.code);
+      },
     },
     methods:{
       editCase (){
@@ -63,6 +69,12 @@
     &__setup {
       padding-top: 5px;
       font-size: 10px;
+      font-stretch: condensed;
+    }
+    &__count {
+      padding-top: 5px;
+      font-size: 11px;
+      color: dimgrey;
     }
   }
 </style>

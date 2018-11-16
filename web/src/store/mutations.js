@@ -12,14 +12,38 @@ export default {
   setMessage: (state, message) => {
     state.message = message;
   },
-  setPatterns: (state, list) => {
-    Vue.set(state.patterns, 'list', list);
-  },
+
   setGroups: (state, list) => {
     Vue.set(state.groups, 'list', list);
   },
   setGroup: (state, list) => {
     Vue.set(state.group, 'model', list);
+  },
+
+  // Шаблоны
+  setPatterns: (state, list) => {
+    Vue.set(state.patterns, 'list', list);
+  },
+  splicePatterns: (state, model) => {
+    const index = state.patterns.list.findIndex(p => p.alg === model.alg);
+    if (index >= 0) {
+      state.patterns.list.splice(index, 1, model);
+    } else {
+      state.patterns.list.push(model);
+    }
+  },
+  // Шаблоны
+  unsetPattern: (state) => {
+    Vue.set(state.pattern, 'model', {});
+  },
+  setPattern: (state, model) => {
+    Vue.set(state.pattern, 'model', model);
+  },
+  setPatternEditing: (state, editing) => {
+    Vue.set(state.pattern, 'editing', editing);
+  },
+  updatePattern: (state, model) => {
+    Object.assign(state.pattern.model, model);
   },
 
   // Случаи

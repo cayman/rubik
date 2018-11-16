@@ -4,6 +4,7 @@ import Router from 'vue-router';
 import GroupPage from './components/GroupPage';
 import CasePage from './components/CasePage';
 import HomePage from './components/HomePage';
+import PatternsPage from './components/PatternsPage';
 
 
 Vue.use(Router);
@@ -25,6 +26,11 @@ export default new Router({
       path: '/case/:id',
       name: 'case',
       components: {default: CasePage}
+    },
+    {
+      path: '/patterns',
+      name: 'patterns',
+      components: {default: PatternsPage}
     }
   ]
 });

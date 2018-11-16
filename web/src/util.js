@@ -5,15 +5,20 @@ const pare3 = { from: /([URFLDBMurfldbyxz]{1}[w]{0,1})/i, to:'$1\'' };
 
 const clearing1 = /[(]{1}/gi;
 const clearing2 = /[)]{1}/gi;
+const turn = /([yxz]{1}['2]{0,1})/gi;
 
-function splitSteps(steps) {
-  return steps.trim().replace(clearing1,' ').replace(clearing2,' ')
-    .split(' ').map(steps => steps.trim()).filter(steps => steps.length > 0);
+export function filterSteps (steps) {
+  return steps.map(step => step.trim()).filter(step => step.length > 0)
 }
 
-function splitBlocks(steps) {
-  return steps.trim().replace(clearing1,'|').replace(clearing2,'|')
-    .split('|').map(steps => steps.trim()).filter(steps => steps.length > 0);
+function splitSteps(raw) {
+  const processed = raw.trim().replace(clearing1,' ').replace(clearing2,' ');
+  return filterSteps(processed.split(' '));
+}
+
+function splitBlocks(raw) {
+  const processed = raw.trim().replace(turn,'$1|').replace(clearing1,'|').replace(clearing2,'|');
+  return filterSteps(processed.split('|'));
 }
 
 export function revert(steps) {
@@ -30,4 +35,35 @@ export function recognize (solution, patterns = []) {
     .map(steps => patterns.filter(pattern => pattern.alg === steps)
       .map(pattern => pattern.name)[0] || '(' + steps + ')')
     .join(' ');
+}
+
+export function sortAlg (a, b, order = 1) {
+  const sa = a.alg.split(' ');
+  const sb = b.alg.split(' ');
+  return sa[0] > sb[0] ? 1 : sa[0] < sb[0] ? -1
+    : sa.length < sb.length ? order : sa.length < sb.length ? (-1 * order)
+    : a.alg.length < b.alg.length ? order : (-1 * order);
+}
+
+export function parseError(title, error) {
+  console.log(title, error);
+  return { type: 'error', title, error };
+}
+
+function createModel(snap) {
+  return {id: snap.id, ...snap.data()};
+}
+
+export function clearModel(model) {
+  const _model = Object.assign({}, model);
+  delete _model.id;
+  return _model;
+}
+
+export function getSnapList (snap) {
+  return snap.docs.map(item => createModel(item));
+}
+
+export function getSnapData (snap) {
+  return snap.exists ? createModel(snap) : {};
 }

@@ -1,8 +1,9 @@
 <template>
   <tr>
-    <case-table-cell :projection="projection" :rotation="null" :position="basePosition" :case-model="caseModel"/>
+    <case-table-cell :projection="projection" :rotation="null" :position="basePosition"
+                     :case-model="caseModel" :base-setup="baseSetup"/>
     <template v-for="{rotation, position} in rotatedPositions">
-      <case-table-cell :key="rotation" :rotation="rotation"
+      <case-table-cell :key="rotation" :rotation="rotation" :base-setup="baseSetup"
                        :projection="projection" :position="position" :case-model="caseModel"/>
     </template>
   </tr>
@@ -31,6 +32,9 @@
     computed: {
       basePosition() {
         return this.positions.find(position => !position.rotation);
+      },
+      baseSetup() {
+        return this.basePosition ? this.basePosition.setup : this.caseModel.setup;
       },
       rotatedPositions() {
         return !this.projection.rotations ? [] : this.projection.rotations

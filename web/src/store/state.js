@@ -6,6 +6,17 @@ export default {
     loading: false,
     list: []
   },
+  // шаблоны алгоритмов
+  pattern: {
+    loading: false,
+    editing: false,
+    model: {
+      alg: null,
+      name: null,
+      desc: null,
+      group: null
+    }
+  },
   // все группы
   groups: {
     loading: false,

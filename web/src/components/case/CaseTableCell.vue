@@ -38,6 +38,10 @@
       caseModel: {
         type: Object,
         required: false
+      },
+      baseSetup: {
+        type: String,
+        required: false
       }
     },
     computed: {
@@ -65,7 +69,8 @@
         this.$store.dispatch('newPosition', {
           caseModel: this.caseModel,
           projection: this.projection,
-          rotation: this.rotation
+          rotation: this.rotation,
+          setup: this.baseSetup
         })
       }
     }

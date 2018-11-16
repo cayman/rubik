@@ -4,6 +4,8 @@
       <router-link :to="{name: 'group', params: {id: group.id}}">F2L</router-link>
     </div>
 
+    <router-link :to="{name: 'patterns'}">Шаблоны</router-link>
+
     <div class="more"></div>
   </main>
 </template>

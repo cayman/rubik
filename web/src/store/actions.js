@@ -1,27 +1,52 @@
-export function parseError(title, error) {
-  console.log(title, error);
-  return { type: 'error', title, error };
-}
-
-function createModel(snap) {
-  return {id: snap.id, ...snap.data()};
-}
-
-function clearModel(model) {
-  const _model = Object.assign({}, model);
-  delete _model.id;
-  return _model;
-}
-export function getSnapList (snap) {
-  return snap.docs.map(item => createModel(item));
-}
-
-export function getSnapData (snap) {
-  return snap.exists ? createModel(snap) : {};
-}
-
+import {clearModel, filterSteps, getSnapData, getSnapList, parseError, sortAlgs} from '../util';
 
 export default {
+
+  newPattern: ({commit}, {group}) => {
+    console.log('newPattern', group);
+    const model = {
+      id: null,
+      alg: null,
+      group,
+      name: null,
+      desc: null
+    };
+    commit('setPattern', model);
+    commit('setPatternEditing', true);
+    return model;
+  },
+
+  editPattern: ({commit}, pattern) => {
+    console.log('editPattern:', pattern);
+    const model = {...pattern};
+    commit('setPattern', model);
+    commit('setPatternEditing', true);
+    return model;
+  },
+
+  savePattern: ({commit, getters}, pattern) => {
+    const id = pattern.id || filterSteps(pattern.alg.split(' ')).join('');
+    console.log('savePattern:', id, pattern);
+    commit('loading', 'pattern');
+    commit('loading', 'patterns');
+    return getters.patterns.doc(id).set(clearModel(pattern))
+      .then(() => getters.patterns.doc(id).get())
+      .then(model => getSnapData(model))
+      .then(model => {
+        commit('unsetPattern');
+        commit('setPatternEditing', false);
+        commit('loaded', 'pattern');
+        commit('splicePatterns', model);
+        commit('loaded', 'patterns');
+        return id;
+      })
+      .catch((error) => {
+        commit('setMessage', parseError('Ошибка сохранения шаблонов:', error));
+        commit('loaded', 'patterns');
+        commit('loaded', 'pattern');
+      });
+  },
+
 
   // Случаи
   fetchPatterns: ({commit, getters}) => {
@@ -30,7 +55,7 @@ export default {
     return getters.patterns.get()
       .then(list => getSnapList(list)
         .filter(p => p.alg && p.alg.length > 0)
-        .sort((a, b) => a.alg.length > b.alg.length ? -1 : 1)
+        .sort(sortAlgs)
       )
       .then(list => {
         commit('setPatterns', list);
@@ -162,6 +187,7 @@ export default {
       .catch((error) => {
         commit('setMessage', parseError('Ошибка сохранения случая:', error));
         commit('loaded', 'case');
+        commit('loaded', 'cases');
       });
   },
 
@@ -185,7 +211,7 @@ export default {
       });
   },
 
-  newPosition: ({commit}, {caseModel, projection, rotation}) => {
+  newPosition: ({commit}, {caseModel, projection, rotation, setup}) => {
     const code = caseModel.code +
       (projection.turn ? '_' + projection.turn : '') +
       (rotation ? '_' + rotation : '');
@@ -197,7 +223,7 @@ export default {
       projectionCode: projection.code,
       rotation,
       code,
-      setup: caseModel.setup || null,
+      setup: setup && rotation ? setup + ' ' + rotation : setup,
       solutions: [{alg: null, note: null, selected: false, key: null}]
     };
     commit('setPosition', model);
@@ -234,6 +260,7 @@ export default {
       .catch((error) => {
         commit('setMessage', parseError('Ошибка сохранения позиции:', error));
         commit('loaded', 'position');
+        commit('loaded', 'positions');
       });
   },
 
