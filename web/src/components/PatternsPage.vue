@@ -1,6 +1,6 @@
 <template>
   <main>
-    <template v-for="(group, name, index) in groups">
+    <template v-for="(group, name) in groups">
       <patterns-table :key="name" :group="name" :patterns="group">
       </patterns-table>
     </template>

@@ -8,8 +8,8 @@
       {{ caseModel.name }} - {{ caseModel.desc }}</caption>
     <template v-for="(projection, index) in projections" >
       <tbody :key="index">
-        <case-table-head :projection="projection.projection" :case-model="caseModel"></case-table-head>
-        <case-table-row :positions="projection.positions" :projection="projection.projection"
+        <case-table-head :projection="projection.model" :case-model="caseModel"></case-table-head>
+        <case-table-row :positions="projection.positions" :projection="projection.model"
                     :case-model="caseModel"></case-table-row>
       </tbody>
     </template>
@@ -34,10 +34,13 @@
         return this.$store.state.positions.list
           .filter(position => position.caseCode === this.caseModel.code);
       },
+      projectionsCodes () {
+        return this.$store.state.group.model.projections;
+      },
       projections () {
-        return this.$store.state.projections.list.map(projection => ({
-          projection,
-          positions: this.positions.filter(position => position.projectionCode === projection.code)
+        return this.projectionsCodes.map(code => ({
+          model: this.$store.state.projections.list.find(projection => projection.code === code),
+          positions: this.positions.filter(position => position.projectionCode === code)
         }));
       }
     }

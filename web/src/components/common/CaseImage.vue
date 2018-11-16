@@ -13,23 +13,22 @@
         type: String,
         required: false
       },
+      arrows: {
+        type: String,
+        required: false
+      },
       algorithm: {
         type: String,
         required: false
       },
-      view: {
+      src: {
         type: String,
         required: true
       }
     },
-    data(){
-      return {
-        url: 'http://cube.crider.co.uk/visualcube.php?&fmt=svg&pzl=3&size=120&stage=f2l&cc=black&bg=white&dist=6'
-      }
-    },
     computed:{
       image(){
-        return this.url + '&r=' + this.view  + '&alg=' + (this.setup || '') + (this.algorithm || '');
+        return this.src  + '&alg=' + (this.setup || '') + (this.algorithm || '') + ( this.arrows ? '&arw=' + this.arrows : '');
       }
     },
     methods:{

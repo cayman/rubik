@@ -1,7 +1,7 @@
 <template>
   <main>
     <div v-for="group in groups" :key="group.code">
-      <router-link :to="{name: 'group', params: {id: group.id}}">F2L</router-link>
+      <router-link :to="{name: 'group', params: {id: group.id}}"> {{ group.code }}</router-link>
     </div>
 
     <router-link :to="{name: 'patterns'}">Шаблоны</router-link>

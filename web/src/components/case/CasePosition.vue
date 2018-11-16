@@ -4,7 +4,7 @@
     <a class="action" @click="editPosition" title="Редактировать">
       <i class="fa fa fa-pencil" aria-hidden="true"/>
     </a>
-    <case-image :setup="setup" :algorithm="algorithm" :view="projection.view" @clear="clearAlgoritm"/>
+    <case-image :setup="setup" :algorithm="algorithm" :src="projection.src" :arrows="position.arrows" @clear="clearAlgoritm"/>
     <case-solutions @change="setAlgorithm" :solutions="solutions"/>
   </div>
 </template>

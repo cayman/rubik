@@ -36,7 +36,7 @@
     },
     computed: {
       sortedPatterns () {
-        return this.patterns.slice().sort((a, b) => sortAlg(a, b, -1));
+        return this.patterns.slice().sort((a, b) => sortAlg(a.alg, b.alg, -1));
       },
       model () {
         return this.$store.state.pattern.model;

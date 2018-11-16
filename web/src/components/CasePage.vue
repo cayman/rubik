@@ -1,6 +1,6 @@
 <template>
   <main>
-    <case-table :case-model="caseModel"/>
+    <case-table :case-model="caseModel" v-if="caseModel.id"/>
     <div class="more"></div>
   </main>
 </template>
@@ -27,7 +27,8 @@
         console.log('fetchData', id);
         this.$store.dispatch('fetchPatterns');
         this.$store.dispatch('fetchCase', id ).then(model => {
-          this.$store.dispatch('fetchPositions', {caseCode: model.code})
+          this.$store.dispatch('fetchGroup', model.groupCode);
+          this.$store.dispatch('fetchPositions', {caseCode: model.code});
         });
       }
     }

@@ -1,12 +1,23 @@
 <template>
   <div class="">
-    <case-image :setup="fieldSetup" :view="projection.view"/>
+    <case-image :setup="fieldSetup" :arrows="fieldArrows" :src="projection.src"/>
     <div class="form__field">
       <label class="form__label">
-        set:
+        setup:
       </label>
-      <span class="form__input--wide">
+      <span class="form__input">
         <input type="text" v-model="fieldSetup"/>
+      </span>
+      <a class="action" @click="revertSetup" title="Инверсия">
+        <i class="fa fa-retweet" aria-hidden="true"/>
+      </a>
+    </div>
+    <div class="form__field">
+      <label class="form__label">
+        arrows:
+      </label>
+      <span class="form__input">
+        <input type="text" v-model="fieldArrows"/>
       </span>
     </div>
     <solutions-edit :solutions="solutions"/>
@@ -18,6 +29,7 @@
 <script>
   import CaseImage from '../common/CaseImage';
   import SolutionsEdit from '../common/SolutionsEdit';
+  import {revert} from '../../util';
 
   export default {
     components: { SolutionsEdit, CaseImage },
@@ -49,11 +61,22 @@
           this.$store.commit('updatePosition', {setup});
         }
       },
+      fieldArrows: {
+        get () {
+          return this.position.arrows;
+        },
+        set (arrows) {
+          this.$store.commit('updatePosition', {arrows});
+        }
+      },
       solutions () {
         return this.position.solutions;
       },
     },
     methods: {
+      revertSetup () {
+        this.fieldSetup = revert(this.fieldSetup);
+      },
       close () {
         this.$store.commit('setPositionEditing', false);
         this.$store.commit('unsetPosition');

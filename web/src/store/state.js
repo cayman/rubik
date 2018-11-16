@@ -29,7 +29,21 @@ export default {
       code: null,
       name: null,
       desc: null,
-      parts: []
+      projections: []
+    }
+  },
+  // все части группы
+  parts: {
+    loading: false,
+    list: []
+  },
+  // часть группы
+  part: {
+    loading: false,
+    model: {
+      code: null,
+      name: null,
+      desc: null
     }
   },
   // все случаи группы
@@ -49,7 +63,8 @@ export default {
       partCode: null,
       name: null,
       desc: null,
-      setup: null
+      setup: null,
+      arrows: null
     }
   },
   // все позиции для случая
@@ -68,6 +83,7 @@ export default {
       rotation: null,
       code: null,
       setup: null,
+      arrows: null,
       solutions: []
     }
   },
@@ -76,33 +92,38 @@ export default {
   projections: {
     list: [
       {
+        src: 'http://cube.crider.co.uk/visualcube.php?&fmt=svg&pzl=3&size=120&stage=f2l&cc=black&bg=white&dist=6&r=y30x-30',
         code: 'FR',
         name: 'Front right',
-        view: 'y30x-30',
         turn:  '',
-        turns: '',
         rotations: ['U\'','U2','U']
       },
       {
+        src: 'http://cube.crider.co.uk/visualcube.php?&fmt=svg&pzl=3&size=120&stage=f2l&cc=black&bg=white&dist=6&r=y-30x-30',
         code: 'FL',
         name: 'Front left',
-        view: 'y-30x-30',
         turn:  'y',
         rotations: ['U\'','U2','U']
       },
       {
+        src: 'http://cube.crider.co.uk/visualcube.php?&fmt=svg&pzl=3&size=120&stage=f2l&cc=black&bg=white&dist=6&r=y30x-30',
         code: 'BR',
         name: 'Back right',
-        view: 'y30x-30',
         turn: 'y\'',
         rotations: ['U\'','U2','U']
       },
       {
+        src: 'http://cube.crider.co.uk/visualcube.php?&fmt=svg&pzl=3&size=120&stage=f2l&cc=black&bg=white&dist=6&r=y-30x-30',
         code: 'BL',
         name: 'Back left',
-        view: 'y-30x-30',
         turn: 'y2',
         rotations: ['U\'','U2','U']
+      },
+      {
+        src: 'http://cube.crider.co.uk/visualcube.php?fmt=svg&pzl=3&size=120&view=plan',
+        code: 'TOP',
+        name: 'Top plan',
+        rotations: ['y\'','y2','y']
       }
     ]
   }

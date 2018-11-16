@@ -38,11 +38,11 @@ export function recognize (solution, patterns = []) {
 }
 
 export function sortAlg (a, b, order = 1) {
-  const sa = a.alg.split(' ');
-  const sb = b.alg.split(' ');
+  const sa = a.split(' ');
+  const sb = b.split(' ');
   return sa[0] > sb[0] ? 1 : sa[0] < sb[0] ? -1
     : sa.length < sb.length ? order : sa.length < sb.length ? (-1 * order)
-    : a.alg.length < b.alg.length ? order : (-1 * order);
+    : a.length < b.length ? order : (-1 * order);
 }
 
 export function parseError(title, error) {

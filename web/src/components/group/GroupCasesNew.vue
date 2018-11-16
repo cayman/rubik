@@ -4,7 +4,7 @@
       <group-case-head :case-model="model"/>
     </td>
     <td :style="{width: '130px'}">
-      <case-image v-if="projection" :setup="model.setup" :view="projection.view"/>
+      <case-image v-if="projection" :setup="model.setup" :arrows="model.arrows" :src="projection.src"/>
     </td>
     <td>
       <group-case-edit v-if="model.id === null"/>

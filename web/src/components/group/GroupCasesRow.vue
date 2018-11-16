@@ -5,8 +5,16 @@
         <group-case-head :case-model="block.caseModel"/>
       </td>
       <td :key="'image'+index" :style="{width: '125px'}">
-        <case-image v-if="block.projection" :setup="block.caseModel.setup" :algorithm="algorithm"
-                    :view="block.projection.view" @clear="clearAlgoritm(index)"/>
+
+        <template v-if="block.projection" >
+          <case-image v-if="editing && model.id === block.caseModel.id" :algorithm="algorithm"
+                      :setup="model.setup" :arrows="model.arrows"
+                      :src="block.projection.src" @clear="clearAlgoritm(index)"/>
+          <case-image v-else :algorithm="algorithm"
+                      :setup="block.caseModel.setup" :arrows="block.caseModel.arrows"
+                      :src="block.projection.src" @clear="clearAlgoritm(index)"/>
+        </template>
+
       </td>
       <td :key="'solutions'+index" :style="{width: width * 2 + '%'}">
         <!--{{ block.caseModel }}-->

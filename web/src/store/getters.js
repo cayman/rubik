@@ -7,6 +7,9 @@ export default {
   groups () {
     return db.collection('groups');
   },
+  parts () {
+    return db.collection('parts');
+  },
   cases () {
     return db.collection('cases');
   },

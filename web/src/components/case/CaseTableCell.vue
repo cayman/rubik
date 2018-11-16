@@ -70,7 +70,8 @@
           caseModel: this.caseModel,
           projection: this.projection,
           rotation: this.rotation,
-          setup: this.baseSetup
+          setup: this.baseSetup,
+          arrows: this.caseModel.arrows
         })
       }
     }

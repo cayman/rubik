@@ -1,25 +1,34 @@
 <template>
   <table class="group-cases-table" border="1">
-    <caption><span>{{ part.name }} - {{ part.desc }}</span>
+    <caption>
+      <span class="group-cases-table__number">{{part.number}}. </span>
+      <span>{{ part.name }} - {{ part.desc }}</span>
+      <a class="action" @click="editPart" title="Редактировать">
+        <i class="fa fa fa-pencil" aria-hidden="true"/>
+      </a>
       <a class="action" @click="addCase" title="Добавить">
         <i class="fa fa fa-plus" aria-hidden="true"/>
       </a>
     </caption>
+    <thead v-if="partModel.id === part.id && partEditing">
+      <tr><td colspan="2"><group-part-edit /></td></tr>
+    </thead>
     <template v-for="(blocks, name, index) in casesBlocks" >
       <tbody :key="index">
         <group-cases-row :blocks="blocks" :name="name"/>
       </tbody>
     </template>
-    <group-cases-new v-if="creating"/>
+    <group-cases-new v-if="caseCreating"/>
   </table>
 </template>
 
 <script>
   import GroupCasesRow from './GroupCasesRow';
   import GroupCasesNew from './GroupCasesNew';
+  import GroupPartEdit from './GroupPartEdit';
 
   export default {
-    components: {GroupCasesRow, GroupCasesNew},
+    components: {GroupCasesRow, GroupCasesNew, GroupPartEdit},
     name: 'group-cases-table',
     props: {
       part: {
@@ -36,12 +45,18 @@
       }
     },
     computed: {
-      editCase () {
+      partModel () {
+        return this.$store.state.part.model;
+      },
+      partEditing () {
+        return this.$store.state.part.editing;
+      },
+      caseModel () {
         return this.$store.state.case.model;
       },
-      creating () {
-        return this.$store.state.case.editing && !this.editCase.id &&
-          this.editCase.groupCode === this.group.code && this.editCase.partCode === this.part.code;
+      caseCreating () {
+        return this.$store.state.case.editing && !this.caseModel.id &&
+          this.caseModel.groupCode === this.group.code && this.caseModel.partCode === this.part.code;
       },
       positions () {
         return this.$store.state.positions.list;
@@ -51,17 +66,17 @@
       },
       cases () {
         return this.$store.state.cases.list
-          .filter(model => model.partCode === this.part.code);
+          .filter(model => model.partCode === this.part.code /*|| model.partCode === this.part.number*/);
       },
       partLastCase() {
-        return this.cases.reduce((last, caseModel) =>
-          caseModel.number > last.number ? caseModel : last, {number: 0, partCode: this.part.code});
+        return this.cases[this.cases.length - 1] || {number: 0, partCode: this.part.code};
       },
       casesBlocks () {
         return this.cases.filter(model => model.id).reduce((map, model) => {
           const projection = this.projections.find(projection => projection.code === model.projectionCode);
           const position = this.positions.find(position => position.code === model.code);
-          map[model.name] = (map[model.name] || []).concat({ caseModel: model, position, projection });
+          const key = model.name.split(':')[0];
+          map[key] = (map[key] || []).concat({ caseModel: model, position, projection });
           return map;
         }, {});
       }
@@ -71,8 +86,11 @@
         this.$store.dispatch('newCase', {
           group: this.group,
           part: this.part,
-          lastCase: this.partLastCase.number > 0 ? this.partLastCase : this.groupLastCase
+          lastCase: this.partLastCase.number ? this.partLastCase : this.groupLastCase
         });
+      },
+      editPart (){
+        this.$store.dispatch('editPart', this.part);
       }
     }
   }
@@ -90,6 +108,10 @@
       font-size: 10pt;
       font-weight: 600;
       margin-top: 5px;
+    }
+
+    &__number {
+      color: lightslategray;
     }
 
     th, td {

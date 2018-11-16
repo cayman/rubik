@@ -5,7 +5,7 @@
         Номер
       </label>
       <span class="form__input">
-        <input type="number" v-model="fieldNumber" style="width:50px"/>
+        <input type="text" v-model="fieldNumber" style="width:50px" size="3"/>
       </span>
     </div>
     <div class="form__field">
@@ -57,7 +57,14 @@
         </a>
       </span>
     </div>
-
+    <div class="form__field">
+      <label class="form__label">
+        arrows:
+      </label>
+      <span class="form__input">
+        <input type="text" v-model="fieldArrows"/>
+      </span>
+    </div>
     <button type="button" @click="save">Сохранить</button>
     <button type="button" @click="close">Отмена</button>
   </div>
@@ -73,7 +80,7 @@
         return this.$store.state.projections.list;
       },
       parts () {
-        return this.$store.state.group.model.parts;
+        return this.$store.state.parts.list;
       },
       caseModel () {
         return this.$store.state.case.model;
@@ -83,7 +90,7 @@
           return this.caseModel.number;
         },
         set (number) {
-          this.updateCase({number: parseInt(number)});
+          this.updateCase({number});
         }
       },
       fieldName: {
@@ -108,6 +115,14 @@
         },
         set (setup) {
           this.updateCase({setup});
+        }
+      },
+      fieldArrows: {
+        get () {
+          return this.caseModel.arrows;
+        },
+        set (arrows) {
+          this.updateCase({arrows});
         }
       },
       fieldProjectionCode: {

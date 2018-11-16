@@ -13,11 +13,34 @@ export default {
     state.message = message;
   },
 
+  // Группы
   setGroups: (state, list) => {
     Vue.set(state.groups, 'list', list);
   },
   setGroup: (state, list) => {
     Vue.set(state.group, 'model', list);
+  },
+
+  //Части группы
+  setParts: (state, list) => {
+    Vue.set(state.parts, 'list', list);
+  },
+  spliceParts: (state, model) => {
+    const index = state.parts.list.findIndex(p => p.code === model.code);
+    if (index >= 0) {
+      state.parts.list.splice(index, 1, model);
+    } else {
+      state.parts.list.push(model);
+    }
+  },
+  setPart: (state, list) => {
+    Vue.set(state.part, 'model', list);
+  },
+  unsetPart: (state) => {
+    Vue.set(state.part, 'model', {});
+  },
+  setPartEditing: (state, editing) => {
+    Vue.set(state.part, 'editing', editing);
   },
 
   // Шаблоны
@@ -44,6 +67,9 @@ export default {
   },
   updatePattern: (state, model) => {
     Object.assign(state.pattern.model, model);
+  },
+  updatePart: (state, model) => {
+    Object.assign(state.part.model, model);
   },
 
   // Случаи
