@@ -8,21 +8,19 @@
     </template>
     <br v-if="solution.note"/>
     <template v-for="(note, index) in notes" >
-      <router-link v-if="note.includes(groupCode)" class="case-solution__link"
-                   :to="{name:'case', params: { id: note }}" :key="index+'link'">
-        {{ note }}</router-link>
-      <span v-else class="case-solution__note" :key="index+'note'">
-       {{ note }}
-      </span>
+      <solution-link v-if="note.includes(groupCode)" class="case-solution__link"
+                     :code="note" :key="index+'link'"/>
+      <span v-else class="case-solution__note" :key="index+'note'">{{ note }}</span>
     </template>
   </div>
 </template>
 
 <script>
   import SolutionStep from './SolutionStep';
+  import SolutionLink from './SolutionLink';
 
   export default {
-    components: {SolutionStep},
+    components: {SolutionStep, SolutionLink},
     name: 'solution',
     props:{
       solution: {
@@ -79,9 +77,7 @@
     }
     &__link {
       font-style: italic;
-      cursor: pointer;
-      color: blue;
-      padding-left: 0;
+      padding-left: 2px;
       white-space: nowrap;
       font-size: 10px;
     }

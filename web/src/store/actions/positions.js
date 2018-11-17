@@ -37,8 +37,8 @@ export default {
       caseCode: caseModel.code,
       projectionCode: projection.code,
       rotation,
-      setup: setup && rotation ? setup + ' ' + rotation : setup,
-      arrows: arrows,
+      setup: setup && rotation ? setup + ' ' + rotation : setup || null,
+      arrows: arrows || null,
       solutions: [{alg: null, note: null, selected: false, key: null}]
     };
     commit('setPosition', model);
@@ -50,7 +50,12 @@ export default {
     console.log('editPosition:', position);
     const solutions = position.solutions.length > 0
       ? position.solutions : [{alg: null, note: null, key: null}];
-    const model = {...position, solutions};
+    const model = {
+      ...position,
+      solutions,
+      setup: position.setup || null,
+      arrows: position.arrows || null
+    };
     commit('setPosition', model);
     commit('setPositionEditing', true);
     return model;

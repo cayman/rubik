@@ -16,9 +16,9 @@ function splitSteps(raw) {
   return filterSteps(processed.split(' '));
 }
 
-function splitBlocks(raw) {
-  const processed = raw.trim().replace(turn,'$1|').replace(clearing1,'|').replace(clearing2,'|');
-  return filterSteps(processed.split('|'));
+function splitBlocks(raw, sign = '|') {
+  const processed = raw.trim().replace(turn,'$1' + sign).replace(clearing1,sign).replace(clearing2,sign);
+  return filterSteps(processed.split(sign));
 }
 
 export function revert(steps) {
@@ -30,8 +30,13 @@ export function revert(steps) {
 }
 
 
+export function parentheses (solution) {
+  return splitBlocks(solution, '  ')
+    .map(steps => steps.includes(' ') ? '(' + steps + ')' : steps).join(' ');
+}
+
 export function recognize (solution, patterns = []) {
-  return splitBlocks(solution)
+  return splitBlocks(solution, '|')
     .map(steps => patterns.filter(pattern => pattern.alg === steps)
       .map(pattern => pattern.name)[0] || '(' + steps + ')')
     .join(' ');

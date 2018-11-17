@@ -27,8 +27,9 @@
         console.log('fetchData', id);
         this.$store.dispatch('fetchPatterns');
         this.$store.dispatch('fetchCase', id ).then(model => {
-          this.$store.dispatch('fetchGroup', model.groupCode);
           this.$store.dispatch('fetchPositions', {caseCode: model.code});
+          this.$store.dispatch('fetchGroup', model.groupCode);
+          this.$store.dispatch('fetchCases', model.groupCode);
         });
       }
     }
