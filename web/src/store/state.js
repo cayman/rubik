@@ -123,7 +123,13 @@ export default {
         src: 'http://cube.crider.co.uk/visualcube.php?fmt=svg&pzl=3&size=120&view=plan',
         code: 'TOP',
         name: 'Top plan',
-        rotations: ['y\'','y2','y']
+        rotations: ['y','y2','y\'']
+      },
+      {
+        src: 'http://cube.crider.co.uk/visualcube.php?fmt=svg&pzl=3&size=120&view=plan&stage=oll',
+        code: 'OLL',
+        name: 'OLL plan',
+        rotations: ['y','y2','y\'']
       }
     ]
   }
