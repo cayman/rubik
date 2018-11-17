@@ -1,45 +1,78 @@
 
-const pare1 = { from: /([URFLDBMurfldbyxz]{1}[w]{0,1})'/i, to:'$1' };
-const pare2 = { from: /([URFLDBMurfldbyxz]{1}[w]{0,1}2)/i, to:'$1' };
-const pare3 = { from: /([URFLDBMurfldbyxz]{1}[w]{0,1})/i, to:'$1\'' };
 
-const clearing1 = /[(]{1}/gi;
-const clearing2 = /[)]{1}/gi;
-const turn = /([yxz]{1}['2]{0,1})/gi;
+const additionalChars = /[()]{1}/gi;
+const rotationChars = /([yxz]{1}['2]{0,1})/gi;
+const stepChars = [
+  { pattern: /([yxzUDRLFBMSE]{1}[w]{0,1})2$/,
+    '!': '$&2',  // !y2 = y2
+    '2': '',      // y2 + y2 = null
+    '\'': '$&', // y2 + y' = y
+    '': '$&\'', // y2 + y = y'
+  },
+  { pattern: /([yxzUDRLFBMSE]{1}[w]{0,1})'$/,
+    '!': '$&', // !y' = y
+    '2': '$&', // y' + y2 = y
+    '\'': '$&2', // y' + y' = y2
+    '': '', // y' + y = null
+  },
 
-export function filterSteps (steps) {
+  { pattern: /([yxzUDRLFBMSE]{1}[w]{0,1})$/,
+    '!': '$&\'', // !y = y'
+    '2': '$&\'', // y + y2 = y'
+    '\'': '', // y + y' = null
+    '': '$&2', // y + y = null
+  },
+];
+
+// выполнение операции с одиночным шагом кубика
+function execOperation (step, name) {
+  return stepChars.filter(o => step.match(o.pattern)).map(o => step.replace(o[name]))[0] || '_';
+}
+
+// очистка пустых шагов и тримминг пробелов
+export function trimSteps (steps) {
   return steps.map(step => step.trim()).filter(step => step.length > 0)
 }
 
+// разбиение алгоритма на отдельные шаги
 function splitSteps(raw) {
-  const processed = raw.trim().replace(clearing1,' ').replace(clearing2,' ');
-  return filterSteps(processed.split(' '));
+  const processed = raw.trim().replace(additionalChars, ' ');
+  return trimSteps(processed.split(' '));
 }
 
+// разбиение алгоритма на блоки на основе знака разделения блоков sign
 function splitBlocks(raw, sign = '|') {
-  const processed = raw.trim().replace(turn,'$1' + sign).replace(clearing1,sign).replace(clearing2,sign);
-  return filterSteps(processed.split(sign));
+  const processed = raw.trim().replace(rotationChars, '$&' + sign).replace(additionalChars, sign);
+  return trimSteps(processed.split(sign));
 }
 
-export function revert(steps) {
-  return splitSteps(steps)
-    .map(step =>
-      step.match(pare1.from) ? step.replace(pare1.from, pare1.to) :
-      step.match(pare2.from) ? step.replace(pare2.from, pare2.to) :
-      step.match(pare3.from) ? step.replace(pare3.from, pare3.to) : 'X').reverse().join(' ');
-}
-
-
-export function parentheses (solution) {
-  return splitBlocks(solution, '  ')
+// Блоки выделить скобками
+export function parentheses (solution, sign ='  ') {
+  return splitBlocks(solution, sign)
     .map(steps => steps.includes(' ') ? '(' + steps + ')' : steps).join(' ');
 }
 
+// Распознать блоки выделенные скобками
 export function recognize (solution, patterns = []) {
   return splitBlocks(solution, '|')
     .map(steps => patterns.filter(pattern => pattern.alg === steps)
       .map(pattern => pattern.name)[0] || '(' + steps + ')')
     .join(' ');
+}
+
+// Инверсия алгоритм (Обратный)
+export function revert(solution) {
+  return splitSteps(solution).map(step => execOperation(step, '!')).reverse().join(' ');
+}
+
+// Добавления поворота к алгоритму
+export function turn (solution, move) {
+  if (!move || move.length === 0) return solution;
+  const steps = splitSteps(solution);
+  const lastIndex = steps.length - 1; // последний шаг
+  return Math.abs(steps[lastIndex].length - move.length) > 1 || steps[lastIndex][0] !== move[0]
+    ? solution + ' ' + move
+    : trimSteps(steps.map((step, index) => index < lastIndex ? step : execOperation(step, move || ''))).join(' ');
 }
 
 export function sortAlg (a, b, order = 1) {

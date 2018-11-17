@@ -3,6 +3,9 @@
     <div class="case-solution-edit__field">
       <label class="case-solution-edit__label">
         Алгоритм:
+        <a class="action" @click="parenthesesSolution" title="Разделитель">
+          <i class="fa fa-code" aria-hidden="true"/>
+        </a>
       </label>
       <span class="case-solution-edit__input">
         <input type="text" v-model="fieldAlg"/>
@@ -11,6 +14,9 @@
     <div class="case-solution-edit__field">
       <label class="case-solution-edit__label">
         Название:
+        <a class="action" @click="recognizeSolution" title="Распознать">
+          <i class="fa fa-info" aria-hidden="true"/>
+        </a>
       </label>
       <span class="case-solution-edit__input">
         <input type="text" v-model="fieldNote"/>
@@ -36,6 +42,8 @@
 </template>
 
 <script>
+  import {parentheses, recognize} from '../../util';
+
   export default {
     name: 'solution-edit',
     props: {
@@ -48,7 +56,10 @@
         required: true
       }
     },
-    computed:{
+    computed: {
+      patterns () {
+        return this.$store.state.patterns.list;
+      },
       fieldAlg: {
         get () {
           return this.solution.alg;
@@ -85,6 +96,14 @@
     methods: {
       updateSolution (value) {
         this.$emit('change', {index: this.index, value});
+      },
+      parenthesesSolution () {
+        if (!this.fieldAlg) return;
+        this.fieldAlg = parentheses(this.fieldAlg);
+      },
+      recognizeSolution() {
+        if (!this.fieldAlg) return;
+        this.fieldNote = recognize(this.fieldAlg, this.patterns);
       }
     }
   }

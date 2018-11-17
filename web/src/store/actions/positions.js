@@ -1,4 +1,4 @@
-import {clearModel, getSnapData, getSnapList, parseError} from '../../util';
+import {clearModel, getSnapData, getSnapList, parseError, turn} from '../../util';
 
 
 function newPositionCode ({code}, {turn}, rotation) {
@@ -37,7 +37,7 @@ export default {
       caseCode: caseModel.code,
       projectionCode: projection.code,
       rotation,
-      setup: setup && rotation ? setup + ' ' + rotation : setup || null,
+      setup: setup && rotation ? turn(setup, rotation): setup || null,
       arrows: arrows || null,
       solutions: [{alg: null, note: null, selected: false, key: null}]
     };

@@ -64,7 +64,7 @@
       setAlgorithm (algorithm){
         return this.algorithm = algorithm;
       },
-      clearAlgoritm (index){
+      clearAlgoritm (){
         this.algorithm = '';
       },
       editCase (){

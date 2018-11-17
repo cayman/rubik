@@ -103,7 +103,7 @@ export default {
         code: 'FL',
         name: 'Front left',
         turn:  'y',
-        rotations: ['U\'','U2','U']
+        rotations: ['U','U2','U\'']
       },
       {
         src: 'http://cube.crider.co.uk/visualcube.php?&fmt=svg&pzl=3&size=120&stage=f2l&cc=black&bg=white&dist=6&r=y30x-30',
@@ -117,7 +117,7 @@ export default {
         code: 'BL',
         name: 'Back left',
         turn: 'y2',
-        rotations: ['U\'','U2','U']
+        rotations: ['U','U2','U\'']
       },
       {
         src: 'http://cube.crider.co.uk/visualcube.php?fmt=svg&pzl=3&size=120&view=plan',

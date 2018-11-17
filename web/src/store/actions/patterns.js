@@ -1,4 +1,4 @@
-import {clearModel, filterSteps, getSnapData, getSnapList, parseError, sortAlg} from "../../util";
+import {clearModel, trimSteps, getSnapData, getSnapList, parseError, sortAlg} from "../../util";
 
 export default {
 
@@ -45,7 +45,7 @@ export default {
   },
 
   savePattern: ({commit, getters}, pattern) => {
-    const id = pattern.id || filterSteps(pattern.alg.split(' ')).join('');
+    const id = pattern.id || trimSteps(pattern.alg.split(' ')).join('');
     console.log('savePattern:', id, pattern);
     commit('loading', 'pattern');
     commit('loading', 'patterns');

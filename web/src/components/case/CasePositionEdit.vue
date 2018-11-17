@@ -4,13 +4,16 @@
     <div class="form__field">
       <label class="form__label">
         setup:
+        <a class="action" @click="revertSetup" title="Инверсия">
+          <i class="fa fa-retweet" aria-hidden="true"/>
+        </a>
+        <a class="action" @click="parenthesesSetup" title="Разделитель">
+          <i class="fa fa-code" aria-hidden="true"/>
+        </a>
       </label>
       <span class="form__input">
         <input type="text" v-model="fieldSetup"/>
       </span>
-      <a class="action" @click="revertSetup" title="Инверсия">
-        <i class="fa fa-retweet" aria-hidden="true"/>
-      </a>
     </div>
     <div class="form__field">
       <label class="form__label">
@@ -29,7 +32,7 @@
 <script>
   import CaseImage from '../common/CaseImage';
   import SolutionsEdit from '../common/SolutionsEdit';
-  import {revert} from '../../util';
+  import {parentheses, revert} from '../../util';
 
   export default {
     components: { SolutionsEdit, CaseImage },
@@ -75,7 +78,12 @@
     },
     methods: {
       revertSetup () {
+        if (!this.fieldSetup) return;
         this.fieldSetup = revert(this.fieldSetup);
+      },
+      parenthesesSetup () {
+        if (!this.fieldSetup) return;
+        this.fieldSetup = parentheses(this.fieldSetup);
       },
       close () {
         this.$store.commit('setPositionEditing', false);
