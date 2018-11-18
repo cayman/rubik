@@ -1,6 +1,8 @@
 <template>
   <div class="case-position">
-    <div class="case-position__setup">set: {{ setup }}</div>
+    <div class="case-position__setup">
+      <span>set: {{ setup }}</span><br/><span class="case-position__comment">{{ recognizedSetup }}</span>
+    </div>
     <a class="action" @click="editPosition" title="Редактировать">
       <i class="fa fa fa-pencil" aria-hidden="true"/>
     </a>
@@ -12,6 +14,7 @@
 <script>
   import CaseSolutions from '../common/Solutions';
   import CaseImage from '../common/CaseImage';
+  import {recognize} from "../../util";
 
   export default {
     components: {CaseSolutions, CaseImage},
@@ -39,6 +42,12 @@
       setup(){
         return  this.position.setup;
       },
+      patterns () {
+        return this.$store.state.patterns.list;
+      },
+      recognizedSetup () {
+        return recognize(this.setup, this.patterns);
+      },
       solutions () {
         return this.position.solutions || [];
       }
@@ -64,6 +73,10 @@
       padding: 2px 0;
       font-size: $font-size-small;
       border-bottom: $line-lite;
+    }
+    &__comment {
+      font-weight: $font-weight-lite;
+      color: $text-color-note;
     }
   }
 
