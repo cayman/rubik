@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div><b>{{ algorithm }}</b></div>
+    <div>{{ algorithm }}</div>
     <img class="image" :src="image" @click="clearAlgoritm()">
   </div>
 </template>

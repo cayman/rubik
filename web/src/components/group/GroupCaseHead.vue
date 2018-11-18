@@ -9,14 +9,13 @@
       </router-link>
       <span v-else>{{ caseModel.code }}</span>
     </div>
-    <div class="group-case-head__name">
+    <div class="group-case-head__label">
       {{ caseModel.name }}
     </div>
     <div class="group-case-head__desc">
       {{ caseModel.desc }}
     </div>
     <div class="group-case-head__setup">
-      set:
       <template v-for="(step, index) in setupSteps">
         <wbr :key="index +'wbr'" v-if="step.startsWith('(')" />
         <span :key="index">{{ step }}&nbsp;</span>
@@ -55,26 +54,30 @@
 </script>
 
 <style lang="scss" scoped>
+   @import "../../assets/var";
   .group-case-head {
+
     &__code {
 
     }
-    &__name {
-      font-weight: 600;
+    &__label {
+      font-size: $font-size-middle;
+      font-weight: $font-weight-bold;
+      font-family: $font-family-condensed;
     }
     &__desc {
-      font-weight: 500;
-      font-stretch: condensed;
+      font-weight: $font-weight-regular;
+      font-family: $font-family-condensed;
+      font-size: $font-size-smaller;
+      color: $text-color-label;
     }
     &__setup {
       padding-top: 5px;
-      font-size: 10px;
-      font-stretch: condensed;
+      font-size: $font-size-small;
     }
     &__count {
-      padding-top: 5px;
-      font-size: 11px;
-      color: dimgrey;
+      font-size: $font-size-small;
+      color: #c1c1c1;
     }
   }
 </style>

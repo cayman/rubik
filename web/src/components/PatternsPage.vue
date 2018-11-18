@@ -1,7 +1,7 @@
 <template>
   <main>
-    <template v-for="(group, name) in groups">
-      <patterns-table :key="name" :group="name" :patterns="group">
+    <template v-for="(name) in groupNames">
+      <patterns-table :key="name" :group="name" :patterns="groups[name]">
       </patterns-table>
     </template>
     <div class="more"></div>
@@ -23,6 +23,9 @@
           groups[name] = (groups[name] || []).concat(pattern);
           return groups;
         }, {});
+      },
+      groupNames () {
+        return Object.keys(this.groups).sort((a,b)=>a > b ? 1 : -1);
       }
     },
     created () {

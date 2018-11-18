@@ -1,8 +1,10 @@
 <template>
   <table class="group-cases-table" border="1">
-    <caption>
+    <caption class="group-cases-table__caption" >
       <span class="group-cases-table__number">{{part.number}}. </span>
-      <span>{{ part.name }} - {{ part.desc }}</span>
+      <span> {{ part.name }}</span>
+      <span class="group-cases-table__desc" > - {{ part.desc }}</span>
+
       <a class="action" @click="editPart" title="Редактировать">
         <i class="fa fa fa-pencil" aria-hidden="true"/>
       </a>
@@ -96,28 +98,24 @@
   }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+  @import "../../assets/var";
   .group-cases-table {
+    margin: 10px 0 0 0;
     width: 800px;
-    font-family: "Times New Roman", Times, serif;
-    border-collapse: collapse;
     border: 1px solid black;
-
-    caption {
+    border-collapse: collapse;
+    &__caption {
       text-align: center;
-      font-size: 10pt;
-      font-weight: 600;
-      margin-top: 5px;
+      font-weight: $font-weight-bold;
+      font-size: $font-size-big;
     }
-
     &__number {
-      color: lightslategray;
+      color: $text-color-label;
     }
-
-    th, td {
-      font-size: 9.5pt;
-      border-collapse: collapse;
-      border: 1px solid black;
+    &__desc {
+      font-weight: $font-weight-regular;
+      color: $text-color-label;
     }
   }
 </style>

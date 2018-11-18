@@ -22,12 +22,14 @@
 </script>
 
 <style lang="scss" scoped>
+  @import "../../assets/var";
   .solution-link {
-    cursor: pointer;
-    color: blue;
-    white-space: nowrap;
-    a:visited {
-      color: blue;
-    }
+     cursor: pointer;
+     color: $text-color-link;
+     text-decoration: underline;
+     white-space: nowrap;
+     a:visited {
+        color: $text-color-link;
+     }
   }
 </style>

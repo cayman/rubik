@@ -1,19 +1,23 @@
 <template>
     <tr>
-      <td :style="{width: '150px'}">
-        <input type="text" v-model="fieldAlg" style="width:140px"/>
+      <td :style="{width: '120px'}">
+        <input type="text" v-model="fieldAlg" style="width:115px"/>
       </td>
-      <td :style="{width: '150px'}">
-        <input type="text" v-model="fieldName" style="width:140px"/>
-      </td>
-      <td :style="{width: '250px'}">
-        <input type="text" v-model="fieldDesc" style="width:240px"/>
+      <td :style="{width: '120px'}">
+        <input type="text" v-model="fieldName" style="width:115px"/>
       </td>
       <td>
-        <select v-model="fieldGroup" style="width: 70px">
+        <select v-model="fieldGroup" style="width: 80px">
           <option v-for="group in groups" :key="group" :value="group" :label="group">
           </option>
         </select>
+      </td>
+      <td :style="{width: '220px'}">
+        <input type="text" v-model="fieldDesc" style="width:215px"/>
+      </td>
+
+      <td :style="{width: '80px'}">
+        <input type="text" v-model="fieldFingers" style="width:75px"/>
       </td>
       <td>
         <button type="button" @click="save">Сохранить</button>
@@ -60,6 +64,14 @@
           this.updatePattern({desc});
         }
       },
+      fieldFingers: {
+        get () {
+          return this.pattern.fingers;
+        },
+        set (fingers) {
+          this.updatePattern({fingers});
+        }
+      },
       fieldGroup: {
         get () {
           return this.pattern.group;
@@ -85,9 +97,4 @@
 </script>
 
 <style lang="scss">
-    th, td {
-      font-size: 9.5pt;
-      border-collapse: collapse;
-      border: 1px solid black;
-    }
 </style>

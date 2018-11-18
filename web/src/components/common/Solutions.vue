@@ -27,12 +27,13 @@
 </script>
 
 <style lang="scss" scoped>
+  @import "../../assets/var";
   .solutions {
       &__item {
         &:not(:first-child) {
-          border-top: 1px solid lightsteelblue;
+          border-top: $line-base;
         }
-        padding: 2px 0;
+        padding: 3px 0 1px 0;
       }
   }
 </style>

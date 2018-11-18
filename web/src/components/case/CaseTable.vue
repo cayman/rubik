@@ -1,11 +1,14 @@
 <template>
   <table class="case-table" border="1">
-    <caption>
-      <router-link :to="{name: 'group', params: {id: caseModel.groupCode}}">
-        <strong>{{ caseModel.groupCode }}</strong>
+    <caption class="case-table__caption" >
+      <router-link class="case-table__link"  :to="{name: 'group', params: {id: caseModel.groupCode}}">
+        <span>{{ caseModel.groupCode }}</span>
+        <span>-{{ caseModel.number }}</span>
       </router-link>
-      <strong> {{ caseModel.number }}</strong>
-      {{ caseModel.name }} - {{ caseModel.desc }}</caption>
+
+      <span> {{ caseModel.name }}</span>
+      <span class="case-table__desc" > - {{ caseModel.desc }}</span>
+    </caption>
     <template v-for="(projection, index) in projections" >
       <tbody :key="index">
         <case-table-head :projection="projection.model" :case-model="caseModel"></case-table-head>
@@ -47,18 +50,22 @@
   }
 </script>
 
-<style scoped>
-  table{
+<style lang="scss" scoped>
+  @import "../../assets/var";
+  .case-table {
+    margin: 15px 0 0 0;
     width: 800px;
-  }
-  caption {
-    font-family: "Times New Roman", Times, serif;
-    font-size: 12pt;
-  }
-  table, th, td {
-    font-family: "Times New Roman", Times, serif;
-    font-size: 9.5pt;
     border: 1px solid black;
     border-collapse: collapse;
+    &__caption {
+      padding: 0;
+      margin: 0;
+      font-weight: $font-weight-bold;
+      font-size: $font-size-big;
+    }
+    &__desc {
+      font-weight: $font-weight-regular;
+      color: $text-color-label;
+    }
   }
 </style>

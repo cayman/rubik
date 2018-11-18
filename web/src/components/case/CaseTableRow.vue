@@ -49,8 +49,4 @@
 </script>
 
 <style scoped>
-  td {
-    padding: 2px 2px 2px 2px;
-    vertical-align: top;
-  }
 </style>

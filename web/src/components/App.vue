@@ -11,9 +11,16 @@
 </script>
 
 <style lang="scss">
+  @import "../assets/var";
+
+  html {
+    font-size: 13px;
+  }
+
   body {
     margin: 0;
     padding: 10px;
+    color: $text-color-base;
   }
 
   @page {
@@ -39,22 +46,23 @@
   #app {
     width: 100%;
     height: 100%;
-    font-family: "Times New Roman", Times, serif;
-    font-size: 12pt;
+    font-family: $font-family-base;
+    font-size: $font-size-base;
+    font-weight: $font-weight-regular;
   }
 
   .action {
     float: right;
     display: inline-block;
     background-color: transparent;
-    color: gainsboro;
+    color: $icon-color;
     cursor: pointer;
     margin: 0 4px 0 0;
     padding: 2px;
     border-radius: 2px;
     line-height: normal;
     &:hover {
-       background-color: cornflowerblue;
+       background-color: $icon-color-hover;
        color: white;
     }
   }

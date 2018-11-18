@@ -26,7 +26,7 @@ const stepChars = [
 
 // выполнение операции с одиночным шагом кубика
 function execOperation (step, name) {
-  return stepChars.filter(o => step.match(o.pattern)).map(o => step.replace(o[name]))[0] || '_';
+  return stepChars.filter(o => step.match(o.pattern)).map(o => step.replace(o.pattern, o[name]))[0];
 }
 
 // очистка пустых шагов и тримминг пробелов
@@ -72,7 +72,7 @@ export function turn (solution, move) {
   const lastIndex = steps.length - 1; // последний шаг
   return Math.abs(steps[lastIndex].length - move.length) > 1 || steps[lastIndex][0] !== move[0]
     ? solution + ' ' + move
-    : trimSteps(steps.map((step, index) => index < lastIndex ? step : execOperation(step, move || ''))).join(' ');
+    : trimSteps(steps.map((step, index) => index < lastIndex ? step : execOperation(step, move[1] || ''))).join(' ');
 }
 
 export function sortAlg (a, b, order = 1) {

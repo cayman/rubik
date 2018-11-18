@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <small>set: {{ setup }}</small>
+  <div class="case-position">
+    <div class="case-position__setup">set: {{ setup }}</div>
     <a class="action" @click="editPosition" title="Редактировать">
       <i class="fa fa fa-pencil" aria-hidden="true"/>
     </a>
@@ -57,9 +57,14 @@
   }
 </script>
 
-<style scoped>
-  .image {
-    width: 130px;
-    height: 130px;
+<style lang="scss" scoped>
+  @import "../../assets/var";
+  .case-position {
+    &__setup {
+      padding: 2px 0;
+      font-size: $font-size-small;
+      border-bottom: $line-lite;
+    }
   }
+
 </style>

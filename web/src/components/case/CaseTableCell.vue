@@ -1,5 +1,5 @@
 <template>
-  <td :style="{width}">
+  <td :style="{width}" class="case-table-cell">
     <template v-if="position">
       <case-position-edit v-if="editing && model.id === position.id" :projection="projection"/>
       <case-position v-else :position="position" :projection="projection" :rotation="rotation"/>
@@ -79,8 +79,8 @@
 </script>
 
 <style scoped>
-  td {
-    padding: 2px 2px 2px 2px;
+  .case-table-cell {
+    padding: 2px 5px;
     vertical-align: top;
   }
 </style>

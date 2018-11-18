@@ -1,12 +1,16 @@
 <template>
-  <tr class="pTitle">
+  <tr class="case-table-head">
     <td :style="{width}">
-      <strong>{{ prefix }} &nbsp; ({{ projection.name }})</strong>
+      <span class="case-table-head__label">
+        {{ prefix }} &nbsp; ({{ projection.name }})
+      </span>
     </td>
     <template v-for="(rotation, index) in projection.rotations">
       <td :key="index" :style="{width}">
         <span> {{ prefix }} </span>
-        <strong> {{ projection.turn }} {{rotation}}</strong>
+        <span class="case-table-head__label">
+          {{ projection.turn }} {{rotation}}
+        </span>
       </td>
     </template>
   </tr>
@@ -39,9 +43,16 @@
   }
 </script>
 
-<style scoped>
-  th{
-    padding: 4px 0px 2px 0px;
-    font-weight: 600;
+<style lang="scss" scoped>
+  @import "../../assets/var";
+  .case-table-head {
+    td {
+      padding: 3px 5px 1px 5px;
+      font-weight: $font-weight-regular;
+      font-size: $font-size-middle;
+    }
+    &__label {
+      font-weight: $font-weight-bold;
+    }
   }
 </style>

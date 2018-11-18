@@ -1,8 +1,5 @@
 <template>
-  <span>
-    <strong v-if="selected"> {{ stepCleared }} </strong>
-    <span v-else> {{ step }} </span>
-  </span>
+    <span :class="{ selected }">{{ step }}</span>
 </template>
 
 <script>
@@ -17,22 +14,13 @@
         type: Boolean,
         required: true
       }
-    },
-    data (){
-      return {
-        clearing: /[*]{1}/i,
-      }
-    },
-    computed:{
-      stepCleared (){
-        return this.step.replace(this.clearing,'');
-      },
     }
   };
 </script>
 
-<style scoped>
-  .note {
-    font-style: italic;
+<style lang="scss" scoped>
+  @import "../../assets/var";
+  .selected {
+    font-weight: $font-weight-bold;
   }
 </style>
